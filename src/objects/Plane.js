@@ -1,6 +1,6 @@
-import { DoubleSide, Mesh, MeshStandardMaterial, PlaneGeometry, ShaderMaterial } from 'three';
-import fragmentShader from '../shaders/fragment.glsl';
-import vertexShader from '../shaders/vertex.glsl';
+import { BufferAttribute, DoubleSide, Mesh, MeshStandardMaterial, PlaneGeometry, ShaderMaterial } from "three";
+import fragmentShader from "../shaders/fragment.glsl";
+import vertexShader from "../shaders/vertex.glsl";
 
 export default class Plane {
 	constructor() {
@@ -9,8 +9,8 @@ export default class Plane {
 
 	init() {
 		this.properties = {
-			width: 16,
-			height: 16,
+			width: 20,
+			height: 20,
 			widthSegments: 36,
 			heightSegments: 36,
 			wireframe: false,
@@ -19,6 +19,7 @@ export default class Plane {
 		this.uniforms = {
 			uTime: { value: 0 },
 			uResolution: { value: { x: window.innerWidth, y: window.innerHeight } },
+			uAmp: { value: 1 },
 		};
 		this.geometry = new PlaneGeometry(
 			this.properties.width,
@@ -26,6 +27,14 @@ export default class Plane {
 			this.properties.widthSegments,
 			this.properties.heightSegments
 		);
+		this.displacement = new Float32Array(this.geometry.attributes.position.count);
+		this.noise = new Float32Array(this.geometry.attributes.position.count);
+		for (let i = 0; i < this.displacement.length; i++) {
+			this.noise[i] = Math.random() * 5;
+		}
+		this.geometry.setAttribute("displacement", new BufferAttribute(this.displacement, 1));
+		console.log(this.geometry);
+
 		this.material = new ShaderMaterial({
 			side: DoubleSide,
 			wireframe: this.properties.wireframe,

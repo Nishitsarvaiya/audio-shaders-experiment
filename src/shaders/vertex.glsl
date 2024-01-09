@@ -1,14 +1,11 @@
-varying vec3 vPosition;
+uniform float uAmp;
+attribute float displacement;
 varying vec3 vNormal;
 varying vec2 vUv;
 
-
 void main() {
-    vPosition = position;
     vNormal = normal;
-    vUv = uv;
-    // vec3 newPosition = position + normal * displacement;
-    vec4 modelViewPosition = modelViewMatrix * vec4(position, 1.0);
-    vec4 projectedPosition = projectionMatrix * modelViewPosition;
-    gl_Position = projectedPosition;
+    vUv = ( 0.5 + uAmp ) * uv + vec2( uAmp );
+    vec3 newPosition = position + uAmp * normal * vec3( displacement );
+    gl_Position = projectionMatrix * modelViewMatrix * vec4( newPosition, 1.0 );
 }
