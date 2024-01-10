@@ -1,0 +1,1 @@
+normal = perturbNormalArb( - vViewPosition, normal, vec2(dFdx(vDisplacement * uAmplitude), dFdy(vDisplacement * uAmplitude)), faceDirection ); 

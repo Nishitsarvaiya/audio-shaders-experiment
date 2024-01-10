@@ -1,16 +1,16 @@
-import { defineConfig } from 'vite';
-import glslify from 'rollup-plugin-glslify';
-import * as path from 'path';
+import { defineConfig } from "vite";
+import glslify from "rollup-plugin-glslify";
+import * as path from "path";
 
 export default defineConfig({
-	root: '',
-	base: '/',
+	root: "",
+	base: "/",
 	build: {
-		outDir: 'dist',
+		outDir: "dist",
 		cssCodeSplit: true,
 		rollupOptions: {
 			input: {
-				demo: './index.html',
+				demo: "./index.html",
 			},
 		},
 	},
@@ -19,8 +19,8 @@ export default defineConfig({
 	},
 	resolve: {
 		alias: {
-			'@': path.resolve(__dirname, './src'),
+			"@": path.resolve(__dirname, "./src"),
 		},
 	},
-	plugins: [glslify()],
+	plugins: [glslify({ compress: false })],
 });
